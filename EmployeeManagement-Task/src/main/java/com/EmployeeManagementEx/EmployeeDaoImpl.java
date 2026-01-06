@@ -5,12 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDaoImpl implements EmployeeDao {
-    private static final String URL = "jdbc:mysql://localhost:3306/mladec";
-    private static final String USER = "root";   
+
+    private static final String URL = "jdbc:mysql://localhost:3306/mladec?useSSL=false&serverTimezone=UTC";
+    private static final String USER = "root";
     private static final String PASS = "root@39";
 
     // Constructor ensures table exists
     public EmployeeDaoImpl() {
+        try {
+            // Explicitly load driver (important for Tomcat)
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("MySQL JDBC Driver not found!", e);
+        }
         createTableIfNotExists();
     }
 
@@ -18,7 +25,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return DriverManager.getConnection(URL, USER, PASS);
     }
 
-  
+    /** Create table if not exists **/
     private void createTableIfNotExists() {
         String sql = "CREATE TABLE IF NOT EXISTS employees (" +
                      "id INT PRIMARY KEY, " +
@@ -30,7 +37,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             stmt.executeUpdate(sql);
             System.out.println("Table 'employees' checked/created successfully.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error creating table", e);
         }
     }
 
@@ -46,9 +53,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
             ps.executeUpdate();
             return emp;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error adding employee", e);
         }
-        return null;
     }
 
     @Override
@@ -65,9 +71,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 return emp;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error updating employee", e);
         }
-        return null; 
+        return null;
     }
 
     @Override
@@ -78,7 +84,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error deleting employee", e);
         }
     }
 
@@ -99,7 +105,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 list.add(emp);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error fetching employees", e);
         }
         return list;
     }
