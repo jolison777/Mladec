@@ -1,0 +1,11 @@
+.card {
+  border-radius: 0.75rem;
+}
+
+.card-header {
+  font-weight: 600;
+}
+
+.card-body div {
+  font-size: 1.05rem;
+}

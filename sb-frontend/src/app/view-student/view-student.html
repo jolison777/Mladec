@@ -1,0 +1,61 @@
+<div class="container mt-5">
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger text-center">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Student Details -->
+  <div *ngIf="!isLoading && student" class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+          <h4 class="mb-0">Student Details</h4>
+        </div>
+
+        <div class="card-body">
+
+          <div class="mb-3">
+            <strong>ID:</strong>
+            <span class="ms-2">{{ student.id }}</span>
+          </div>
+
+          <div class="mb-3">
+            <strong>Name:</strong>
+            <span class="ms-2">{{ student.name }}</span>
+          </div>
+
+          <div class="mb-3">
+            <strong>Department:</strong>
+            <span class="ms-2">{{ student.department }}</span>
+          </div>
+
+          <div class="mb-3">
+            <strong>College:</strong>
+            <span class="ms-2">{{ student.college }}</span>
+          </div>
+
+        </div>
+
+        <div class="card-footer d-flex justify-content-between">
+          <button class="btn btn-outline-secondary" (click)="goBack()">
+            Back
+          </button>
+
+          <button class="btn btn-outline-warning" (click)="editStudent()">
+            Edit
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

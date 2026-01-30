@@ -1,0 +1,86 @@
+<div class="container mt-5">
+
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Create Student</h4>
+        </div>
+
+        <div class="card-body">
+
+          <!-- Error Message -->
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+
+          <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+
+            <!-- Name -->
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                placeholder="Enter student name">
+
+              <div *ngIf="f['name'].touched && f['name'].invalid" class="text-danger small">
+                <div *ngIf="f['name'].errors?.['required']">Name is required</div>
+                <div *ngIf="f['name'].errors?.['minlength']">
+                  Name must be at least 2 characters
+                </div>
+              </div>
+            </div>
+
+            <!-- Department -->
+            <div class="mb-3">
+              <label class="form-label">Department</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="department"
+                placeholder="Enter department">
+
+              <div *ngIf="f['department'].touched && f['department'].invalid" class="text-danger small">
+                Department is required
+              </div>
+            </div>
+
+            <!-- College -->
+            <div class="mb-3">
+              <label class="form-label">College</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="college"
+                placeholder="Enter college name">
+
+              <div *ngIf="f['college'].touched && f['college'].invalid" class="text-danger small">
+                College is required
+              </div>
+            </div>             
+            <!-- Buttons --> 
+            <div class="d-flex justify-content-between mt-4">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="onCancel()">
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="isSubmitting">
+                <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2"></span>
+                Save Student
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
